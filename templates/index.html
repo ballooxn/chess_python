@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Chess</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div id="current-player">
+            <strong>Current turn:</strong>
+            <span id="player-turn">White</span>
+        </div>
+    
+        <div class = "game-area">
+        <div class="board-with-border">
+            <div class="board-labels ranks"></div>
+            <div class="board-column">
+                <div id="board"></div>
+                <div class="board-labels files"></div>
+            </div>
+        </div>
+
+            <div class="sidebar">
+                <h2>Move History</h2>
+                <div id="move-list"></div>
+
+                <div id="winner-div">
+                    <p id="winner-text"></p>
+                    <button id="play-again">Play Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
