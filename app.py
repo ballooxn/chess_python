@@ -49,10 +49,9 @@ def move_piece():
 def get_moves():
     data = request.get_json()
     if not data:
-        return jsonify({"error: Invalid get_moves data"}), 400
+        return jsonify({"error: Invalid get_moves data": 400})
 
     legal_moves = game.board.get_legal_moves(data["piece"], data["position"])
-
     return jsonify({"legal_moves": legal_moves})
         
 

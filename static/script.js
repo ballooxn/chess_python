@@ -77,23 +77,37 @@ function get_legal_moves(piece, position) {
     })
     .then(response => response.json())
     .then(new_data => {
-        
+        if (new_data["legal_moves"]) {
+            console.log(new_data["legal_moves"])
+            new_data["legal_moves"].forEach(move => {
+                render_legal_square(move)
+            })
+        } else {
+            console.log("No legal moves found")
+        }
     })
     .catch(err => {
         console.error('Attempt to get legal moves failed', err)
     })
 }
 
-function render_legal_square(position, capture) {
+function render_legal_square(position) {
+    console.log("rendering legal square")
     row = position[0]
     col = position[1]
 
     square = document.getElementById(`${row}-${col}`)
     square.classList.add('legal-move')
 
-    if (capture) {
+    if (board_data.board[position[0]][position[1]] !== "_") {
         square.classList.add('capture')
     }
+}
+
+function clear_legal_moves() {
+    document.querySelectorAll('.legal-move').forEach(square => {
+        square.classList.remove('legal-move', 'capture')
+    })
 }
 
 function render_rank_labels() {
@@ -162,7 +176,7 @@ function handle_square_click(e) {
             // we're clicking the piece we want to move
             selected_square = {row, col}
             highlight_selected()
-            get_legal_moves()
+            get_legal_moves(piece, [row, col])
         }
         return
     }
@@ -172,6 +186,7 @@ function handle_square_click(e) {
     // selected same piece - deselect
     if (row === start_row && col === start_col) {
         selected_square = null
+        clear_legal_moves()
         highlight_selected()
         return
     }
@@ -179,6 +194,7 @@ function handle_square_click(e) {
     if (piece !== "_" && piece.color === board_data.current_player) {
         selected_square = {row, col}
         highlight_selected()
+        clear_legal_moves()
         get_legal_moves(piece, [row, col])
         return
     }

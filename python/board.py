@@ -181,17 +181,20 @@ class Board:
             return True
         
     def get_legal_moves(self, piece, pos):
-
-        moves = piece.get_all_possible_moves()
+        moves = Piece.get_all_possible_moves(piece["type"], piece["color"])
 
         legal_moves = []
 
         for move in moves:
-            move_dict = {
-            "start_pos": [pos[0], [pos[1]]],
-            "end_pos": [move[0], move[[1]]]
-            }
-            if self.valid_move(move_dict, piece.color):
-                legal_moves.append([pos[0], pos[1]])
+            target_row = pos[0] + move[0]
+            target_column = pos[1] + move[1]
+
+            if 0 <= target_row <= 7 and 0 <= target_column <= 7:
+                move_dict = {
+                "start_pos": [pos[0], pos[1]],
+                "end_pos": [target_row, target_column]
+                }
+                if self.valid_move(move_dict, piece["color"]):
+                    legal_moves.append([target_row, target_column])
         
         return legal_moves
